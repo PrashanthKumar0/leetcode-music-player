@@ -1,3 +1,4 @@
+// const server_base_url = 'https://leetcode-music-player.onrender.com';
 const server_base_url = 'http://localhost:8080';
 
 
@@ -90,7 +91,7 @@ Z`
 
 
 
-const setupMeter = ()=>{
+const setupMeter = () => {
     const el = `
 <g class="origin-center translate-x-0" style="rotate:90deg">
     <circle cx="50" cy="50" r="42" class="fill-transparent qa_6R stroke-[#F0F0F0] dark:stroke-[#434343]" style="stroke-width: 3; stroke-linecap: round;">
@@ -101,15 +102,15 @@ const setupMeter = ()=>{
 `;
     const meter_container = document.querySelector('g[clip-path="url(#bar-mask)"]');
     meter_container.innerHTML = el;
-    
+
 }
 
 const meter = (arr) => {
     const meter_el = document.getElementById('IM_METER_BUDDY');
     // meter_el.style.strokeDashoffset = (315 - (arr[0] / 255) * 260);
     // meter_el.style.strokeDasharray = (315 - (arr[0] / 255) * 260);
-    meter_el.class = `fill-transparent qa_6R stroke-sd-${arr[0] < 100 ? 'easy' : (arr[0] < 200 ? 'medium' : 'hard')}`;
-    meter_el.style = `stroke-width: 3; stroke-linecap: round; stroke-dasharray: 315; stroke-dashoffset: ${315 - (arr[0] / 255) * 260};`;
+    meter_el.setAttribute('class', `fill-transparent qa_6R stroke-sd-${arr[0] < 100 ? 'easy' : (arr[0] < 200 ? 'medium' : 'hard')}`);
+    meter_el.setAttribute('style', `stroke-width: 3; stroke-linecap: round; stroke-dasharray: 315; stroke-dashoffset: ${315 - (arr[0] / 255) * 260};`);
 };
 
 
@@ -137,16 +138,16 @@ const meter2 = (arr) => {
 
 const animateBadges = () => {
     const profile_badge = document.querySelector("div:nth-child(2) > div.ml-1 > img[src='/static/images/badges/dcc-2024-5.png']");
-    profile_badge.setAttribute('src','https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-05.gif');
+    profile_badge.setAttribute('src', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-05.gif');
 
     const mar = document.querySelector('image[x="578.4299999999996"]');
     const apr = document.querySelector('image[x="646.2199999999995"]');
     const may = document.querySelector('image[x="708.2499999999993"]');
-    
+
     mar.setAttribute('xlink:href', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-03.gif')
     // start with delay
-    
-    setTimeout(() => { 
+
+    setTimeout(() => {
         apr.setAttribute('xlink:href', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-04.gif')
     }, 500);
 
@@ -156,13 +157,13 @@ const animateBadges = () => {
 }
 
 const animateOthers = () => {
-    const streak_days =  document.querySelector("#headlessui-popover-button-\\:r2\\:")
+    const streak_days = document.querySelector("#headlessui-popover-button-\\:r2\\:")
     const pfps = document.querySelectorAll("img[src='https://assets.leetcode.com/users/PrashanthKumar0/avatar_1615656915.png']");
-    const profile_img_top =  pfps[0];
-    const profile_img_left =  pfps[1];
+    const profile_img_top = pfps[0];
+    const profile_img_left = pfps[1];
     streak_days?.classList.add('animate-pulse');
     profile_img_top?.classList.add('animate-spin');
-    profile_img_left.setAttribute('src',`${server_base_url}/alan-walker-glitch.gif`);
+    profile_img_left.setAttribute('src', `${server_base_url}/alan-walker-glitch.gif`);
 }
 
 
@@ -195,14 +196,25 @@ animateBadges();
 loop();
 // setInterval(loop, 500)
 
+var g_time = performance.now();
+var g_heatmap_step_size = 10000;
 
 function loop() {
+    let time = performance.now();
+    let dt = time - g_time;
+    if(dt > g_heatmap_step_size) {
+        g_time - time;
+    }
+
     analyser.getByteFrequencyData(arr);
     meter(arr);
     // meter2(arr);
     ratingGraph(arr);
     heightCharts(arr);
-    heatmap();
+
+    if(g_time >= g_heatmap_step_size) {
+        heatmap();
+    }
     requestAnimationFrame(loop);
 }
 
