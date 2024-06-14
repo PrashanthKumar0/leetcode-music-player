@@ -1,5 +1,5 @@
-// const server_base_url = 'https://leetcode-music-player.onrender.com';
-const server_base_url = 'http://localhost:8080';
+const server_base_url = 'https://leetcode-music-player.onrender.com';
+// const server_base_url = 'http://localhost:8080';
 
 
 
@@ -9,7 +9,7 @@ const ratingGraph = (arr) => {
     const lines = document.querySelectorAll("g.highcharts-series.highcharts-series-0.highcharts-line-series > path.highcharts-graph .highcharts-point");
     let x_min = 3.578431372549;
     let x_max = 361.42156862745;
-    let n = 100;
+    let n = 200;
 
     function makeD() {
         let d = '';
@@ -17,9 +17,21 @@ const ratingGraph = (arr) => {
         let bias = x_range / 2;
         // let max_h = 50;
         let idx = 0;
+        const emp_factor = 4; // used to nudge y a little (relative to its neighbour)
+        let prev_y = -100;
         for (let x = x_min; x <= (x_max + bias); x += x_range / n) {
             // let y = Math.floor(Math.random() * max_h); // tweak this according to music
             let y = (arr[idx * 3] / 255) * 50; // tweak this according to music
+            let y_emp = y;
+            if(prev_y < 0) {
+                prev_y = y;
+            } else {
+                let dy = y - prev_y;
+                prev_y = y;
+                y_emp += dy * emp_factor;
+            }
+            y = y_emp;
+            y = 50 - y; // invert y
             idx++;
             if (x == x_min) {
                 d += `M ${x} ${y}`;
@@ -197,7 +209,7 @@ loop();
 // setInterval(loop, 500)
 
 var g_time = performance.now();
-var g_heatmap_step_size = 10000;
+var g_heatmap_step_size = 1000 * 5;
 
 function loop() {
     let time = performance.now();
@@ -212,7 +224,7 @@ function loop() {
     ratingGraph(arr);
     heightCharts(arr);
 
-    if(g_time >= g_heatmap_step_size) {
+    if(dt > g_heatmap_step_size){
         heatmap();
     }
     requestAnimationFrame(loop);
