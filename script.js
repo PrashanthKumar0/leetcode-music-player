@@ -1,4 +1,4 @@
-const server_base_url = 'https://leetcode-music-player.onrender.com';
+const server_base_url = 'https://leetcode-music-player-1.onrender.com';
 // const server_base_url = 'http://localhost:8080';
 
 
