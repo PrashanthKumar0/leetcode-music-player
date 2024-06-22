@@ -17,4 +17,5 @@
 - There's a little proxy server [server.js](./server.js) that serves the music file enabling cors to any origin.
 - just spin up that server and change line 1 in [script.js](./script.js) to point to the music file.
 
-> [WARNING] If in near future leetcode changes its layout this script would not work.
+> [!WARNING]
+> If in near future leetcode changes its layout this script would not work.
