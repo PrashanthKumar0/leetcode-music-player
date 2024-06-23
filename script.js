@@ -1,5 +1,5 @@
-const server_base_url = 'https://leetcode-music-player-1.onrender.com';
-// const server_base_url = 'http://localhost:8080';
+// const server_base_url = 'https://leetcode-music-player-1.onrender.com';
+const server_base_url = 'http://localhost:8080';
 
 
 
@@ -148,25 +148,61 @@ const meter2 = (arr) => {
 
 // -----------------------------------------------------
 
-const animateBadges = () => {
-    const profile_badge = document.querySelector("div:nth-child(2) > div.ml-1 > img[src='/static/images/badges/dcc-2024-5.png']");
-    profile_badge?.setAttribute('src', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-05.gif');
-
-    const mar = document.querySelector('image[x="578.4299999999996"]');
-    const apr = document.querySelector('image[x="646.2199999999995"]');
-    const may = document.querySelector('image[x="708.2499999999993"]');
-
-    mar?.setAttribute('xlink:href', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-03.gif')
-    // start with delay
-
-    setTimeout(() => {
-        apr.setAttribute('xlink:href', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-04.gif')
-    }, 500);
-
-    setTimeout(() => {
-        may.setAttribute('xlink:href', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-05.gif')
-    }, 1000);
+const getGifBadgeUrl = ( month, year) =>{
+    month = +month;
+    year = +year;
+    return `https://assets.leetcode.com/static_assets/public/images/badges/${year}/gif/${year}-${month < 10 ? '0' : ''}${month}.gif`;
 }
+
+const getYearMonthFromBadgeUrl=(url) => {
+    // url is something like /static/images/badges/dcc-2024-5.png
+    if(url){
+        const img_name = url.split('/').pop(); // dcc-2024-5.png
+        if(img_name){
+            const img_name_tok = img_name.split('-');
+            if(img_name_tok.length == 3){
+                const year = img_name_tok[1];
+                const month = img_name_tok[2].split('.')[0];
+                if(year && month){
+                    return {year, month};
+                }
+            }
+        }
+    }
+
+    return null;
+}
+
+const animateBadges = () => {
+    const heatmap_badges = document.querySelectorAll('image');
+    heatmap_badges.forEach((badge, idx)=>{
+        const attrib = badge.getAttribute('xlink:href');
+        const yearMonth = getYearMonthFromBadgeUrl(attrib);
+        if(yearMonth){
+            const {year, month} = yearMonth;
+            const gif_url = getGifBadgeUrl(month, year);
+            setTimeout(()=>{
+                badge.setAttribute('xlink:href', gif_url);
+            }, idx * 500); // add .5 seconds delay between each gif
+        }
+    });    
+
+
+
+    const profile_badge =  document.querySelector("div[class='ml-1'] img[class='h-\[12px\]']");
+    const attrib = profile_badge?.getAttribute('src');
+    if(attrib){
+        const yearMonth = getYearMonthFromBadgeUrl(attrib);
+        if(yearMonth){
+            const {year, month} = yearMonth;
+            const gif_url = getGifBadgeUrl(month, year);
+            profile_badge.setAttribute('src', gif_url);
+        }
+    }
+}
+
+
+
 
 const animateOthers = () => {
     const streak_days = document.querySelector("#headlessui-popover-button-\\:r2\\:")
