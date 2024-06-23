@@ -150,13 +150,13 @@ const meter2 = (arr) => {
 
 const animateBadges = () => {
     const profile_badge = document.querySelector("div:nth-child(2) > div.ml-1 > img[src='/static/images/badges/dcc-2024-5.png']");
-    profile_badge.setAttribute('src', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-05.gif');
+    profile_badge?.setAttribute('src', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-05.gif');
 
     const mar = document.querySelector('image[x="578.4299999999996"]');
     const apr = document.querySelector('image[x="646.2199999999995"]');
     const may = document.querySelector('image[x="708.2499999999993"]');
 
-    mar.setAttribute('xlink:href', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-03.gif')
+    mar?.setAttribute('xlink:href', 'https://assets.leetcode.com/static_assets/public/images/badges/2024/gif/2024-03.gif')
     // start with delay
 
     setTimeout(() => {
@@ -175,7 +175,7 @@ const animateOthers = () => {
     const profile_img_left = pfps[1];
     streak_days?.classList.add('animate-pulse');
     profile_img_top?.classList.add('animate-spin');
-    profile_img_left.setAttribute('src', `${server_base_url}/alan-walker-glitch.gif`);
+    profile_img_left?.setAttribute('src', `${server_base_url}/alan-walker-glitch.gif`);
 }
 
 
