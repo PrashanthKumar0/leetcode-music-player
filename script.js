@@ -170,9 +170,8 @@ const animateBadges = () => {
 
 const animateOthers = () => {
     const streak_days = document.querySelector("#headlessui-popover-button-\\:r2\\:")
-    const pfps = document.querySelectorAll("img[src='https://assets.leetcode.com/users/PrashanthKumar0/avatar_1615656915.png']");
-    const profile_img_top = pfps[0];
-    const profile_img_left = pfps[1];
+    const profile_img_top = document.querySelector('#navbar_user_avatar img');
+    const profile_img_left = document.querySelector('img[alt="Avatar"]');
     streak_days?.classList.add('animate-pulse');
     profile_img_top?.classList.add('animate-spin');
     profile_img_left?.setAttribute('src', `${server_base_url}/alan-walker-glitch.gif`);
