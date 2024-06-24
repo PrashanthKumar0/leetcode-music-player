@@ -250,7 +250,7 @@ function loop() {
     let time = performance.now();
     let dt = time - g_time;
     if(dt > g_heatmap_step_size) {
-        g_time - time;
+        g_time = time;
     }
 
     analyser.getByteFrequencyData(arr);
