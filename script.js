@@ -244,7 +244,7 @@ loop();
 // setInterval(loop, 500)
 
 var g_time = performance.now();
-var g_heatmap_step_size = 1000 * 5;
+var g_heatmap_step_size = 300;
 
 function loop() {
     let time = performance.now();
